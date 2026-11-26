@@ -6,8 +6,51 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   'https://abdul-wahab-portfolio-three.vercel.app';
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}/#person`,
+  name: 'Abdul Wahab',
+  url: siteUrl,
+  image: `${siteUrl}/images/abdul-wahab-hero.jpg`,
+  description:
+    'Abdul Wahab is a business and technology professional working across business leadership, web development, e-commerce, travel consultancy, SEO and creative services.',
+  jobTitle: [
+    'Co-Director at G&M Co.',
+    'Assistant Director at Red Productions',
+    'Web Developer',
+    'Digital Professional',
+  ],
+  sameAs: [
+    'https://www.linkedin.com/in/abdul-wahab-7581bb2aa/',
+    'https://github.com/abdulwahab9180',
+  ],
+  knowsAbout: [
+    'Web Development',
+    'Next.js',
+    'React',
+    'WordPress',
+    'Shopify',
+    'WooCommerce',
+    'Search Engine Optimization',
+    'E-commerce',
+    'Graphic Design',
+    'Video Editing',
+    'Travel Consultancy',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Gujranwala',
+    addressCountry: 'PK',
+  },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
+  alternates: {
+    canonical: '/',
+  },
 
   title: 'Abdul Wahab | Business, Technology & Creative Professional',
 
@@ -41,6 +84,12 @@ export const metadata: Metadata = {
     type: 'website',
     url: siteUrl,
     siteName: 'Abdul Wahab Portfolio',
+    images: [
+      {
+        url: '/images/abdul-wahab-hero.jpg',
+        alt: 'Abdul Wahab - Professional Portfolio',
+      },
+    ],
   },
 
   twitter: {
@@ -48,6 +97,7 @@ export const metadata: Metadata = {
     title: 'Abdul Wahab | Professional Portfolio',
     description:
       'Business, technology, e-commerce, consultancy and creative work.',
+    images: ['/images/abdul-wahab-hero.jpg'],
   },
 
   robots: {
@@ -61,7 +111,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personSchema).replace(/</g, '\\u003c'),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
